@@ -1,4 +1,4 @@
-# 运营活动组项目构建工具
+# 🎩运营活动组项目构建工具
 
 ![version](https://img.shields.io/github/package-json/v/NyPhile/ne-build.svg)
 ![commit](https://img.shields.io/github/last-commit/NyPhile/ne-build.svg)

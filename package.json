@@ -1,8 +1,8 @@
 {
   "name": "ne-build",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "wz102223205@sina.com",
-  "description": "NE模板构建命令行工具",
+  "description": "🎩运营活动组项目构建工具",
   "license": "MIT",
   "bin": {
     "ne-build": "./bin/ne-build.js"

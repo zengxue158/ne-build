@@ -101,8 +101,6 @@ program
     console.log('')
 
     inquire(config).then(answers => {
-      console.log('answers is:')
-      console.log(answers)
       answers = _.assign(config, answers)
 
       downloadReop(answers)
