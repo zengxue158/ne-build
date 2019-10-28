@@ -6,13 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.1] - 2019-10-27
+## [0.0.1] - 2019-10-17
 ### Added
 - 基础版本，可用
 - 从`https://github.com/NyPhile/h5-build-cli`迁移过来
 - 简化命令，增加了两个命令`h5`、`post`以代替手动输入模板地址
 - 缩短了包名
 
-## [0.0.2] - 2019-10-27
+## [0.0.2] - 2019-10-17
 ### fixed
 - 去除多余的console.log
+
+## [0.0.3] - 2019-10-28
+### added
+- 增加projectName参数，可在执行命令时输入项目名称，并自动创建目录

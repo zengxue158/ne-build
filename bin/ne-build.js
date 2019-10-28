@@ -2,9 +2,10 @@
 
 const path = require('path')
 const fs = require('fs')
+const { exec } = require('child_process')
 
 const program = require('commander')
-const download = require('download-git-repo');
+const download = require('download-git-repo')
 
 const inquirer = require('inquirer')
 const _ = require('lodash')
@@ -77,7 +78,7 @@ program
   .description('Description: \n  H5模板构建工具 for NETEASE')
 
 program
-  .command('init')
+  .command('init [projectName]')
   .alias('i')
   .description('创建项目')
   .option('-n, --projectName <input>', '项目名称')
@@ -86,9 +87,9 @@ program
   .option('-t, --templatePath <input>', '模板地址')
   .option('--username <input>', '上传账号')
   .option('--password <input>', '上传密码')
-  .action(option => {
+  .action((projectName, option) => {
     let config = _.assign({
-      projectName: null,
+      projectName: projectName ? projectName : null,
       projectChannel: null,
       projectDesc: null,
       templatePath: null,
@@ -103,21 +104,21 @@ program
     inquire(config).then(answers => {
       answers = _.assign(config, answers)
 
-      downloadReop(answers)
+      downloadReop(answers, projectName)
     })
   })
 
 program
-  .command('h5')
+  .command('h5 [projectName]')
   .description('创建H5项目')
   .option('-n, --projectName <input>', '项目名称')
   .option('-c, --projectChannel <input>', '频道名称')
   .option('-d, --projectDesc <input>', '项目描述')
   .option('--username <input>', '上传账号')
   .option('--password <input>', '上传密码')
-  .action(option => {
+  .action((projectName, option) => {
     let config = _.assign({
-      projectName: null,
+      projectName: projectName ? projectName : null,
       projectChannel: null,
       projectDesc: null,
       templatePath: 'NyPhile/h5_template',
@@ -130,25 +131,23 @@ program
     console.log('')
 
     inquire(config).then(answers => {
-      console.log('answers is:')
-      console.log(answers)
       answers = _.assign(config, answers)
 
-      downloadReop(answers)
+      downloadReop(answers, projectName)
     })
   })
 
 program
-  .command('post')
+  .command('post [projectName]')
   .description('创建文章页项目')
   .option('-n, --projectName <input>', '项目名称')
   .option('-c, --projectChannel <input>', '频道名称')
   .option('-d, --projectDesc <input>', '项目描述')
   .option('--username <input>', '上传账号')
   .option('--password <input>', '上传密码')
-  .action(option => {
+  .action((projectName, option) => {
     let config = _.assign({
-      projectName: null,
+      projectName: projectName ? projectName : null,
       projectChannel: null,
       projectDesc: null,
       templatePath: 'NyPhile/post_template',
@@ -161,11 +160,9 @@ program
     console.log('')
 
     inquire(config).then(answers => {
-      console.log('answers is:')
-      console.log(answers)
       answers = _.assign(config, answers)
 
-      downloadReop(answers)
+      downloadReop(answers, projectName)
     })
   })
 
@@ -185,9 +182,10 @@ function inquire (param) {
   return inquirer.prompt(prompts)
 }
 
-function downloadReop (param) {
+function downloadReop (param, path) {
+  const projectPath = path ? `./${path}` : './'
   const spinner = ora('正在下载模板').start()
-  download(param.templatePath, './', err => {
+  download(param.templatePath, projectPath, err => {
     if (err) {
       console.log(err)
     } else {

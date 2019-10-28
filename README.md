@@ -15,6 +15,12 @@
 # node版本大于5.2
 # 参数可在命令行输入，也可以输入命令后按交互提示输入
 
+# 0.0.3版本新增：可在命令后直接输入项目名，如
+$ npx ne-build h5 projectName
+# 使用 NyPhile/h5_template 作为模板，创建projectName文件夹，并在projectName文件夹内创建项目。
+# 不用重复输入项目名了。post、init命令同样增加该参数。
+# 不填写projectName时与之前一样，在当前文件夹下创建项目
+
 $ npx ne-build h5
 # 使用 NyPhile/h5_template 作为模板创建项目，等同于 npx ne-build init -t NyPhile/h5_template
 
@@ -62,7 +68,7 @@ $ npx ne-build init
 3. 使用 `download-git-repo` 在当前目录下载对应git仓库地址内容
 4. 替换 `package.json` 中的内容，`{projectName}` -> `name`，`{projectChannel}` -> `channel`，`{projectDesc}` -> `description`
 5. 替换 `.ftppass` 中的内容，`{username}` -> `username`，`{password}` -> `password`
-6. 替换 `README.md` 中的内容，`# {projectName}` -> `# 项目标题`
+6. 替换 `README.md` 中的内容，`# {projectName}` -> `# temp`
 
 
 

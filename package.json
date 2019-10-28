@@ -1,15 +1,14 @@
 {
-  "name": "ne-build",
-  "version": "0.0.2",
+  "name": "temp",
+  "version": "0.0.3",
   "author": "wz102223205@sina.com",
-  "description": "🎩运营活动组项目构建工具",
+  "description": "j",
   "license": "MIT",
   "bin": {
     "ne-build": "./bin/ne-build.js"
   },
   "main": "index.js",
-  "scripts": {
-  },
+  "scripts": {},
   "engines": {
     "node": ">=5.2.0"
   },
@@ -24,5 +23,6 @@
     "download-git-repo": "^2.0.0",
     "inquirer": "^6.5.0",
     "ora": "^3.4.0"
-  }
+  },
+  "channel": "ccc"
 }
