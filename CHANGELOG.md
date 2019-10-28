@@ -20,3 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.0.3] - 2019-10-28
 ### added
 - 增加projectName参数，可在执行命令时输入项目名称，并自动创建目录
+
+## [0.0.4] - 2019-10-28
+### fixed
+- 修复目录引用错误

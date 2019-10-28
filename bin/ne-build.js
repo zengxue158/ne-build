@@ -183,14 +183,14 @@ function inquire (param) {
 }
 
 function downloadReop (param, path) {
-  const projectPath = path ? `./${path}` : './'
+  const projectPath = path ? `./${path}/` : './'
   const spinner = ora('正在下载模板').start()
   download(param.templatePath, projectPath, err => {
     if (err) {
       console.log(err)
     } else {
       let packageFile = {}
-      let packagePath = `./package.json`
+      let packagePath = `${projectPath}package.json`
       if (fs.existsSync(packagePath)) {
         packageFile = JSON.parse(fs.readFileSync(packagePath, 'utf-8'))
       }
@@ -200,7 +200,7 @@ function downloadReop (param, path) {
       fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
 
       let ftppass = {}
-      let ftppassPath = `./.ftppass`
+      let ftppassPath = `${projectPath}.ftppass`
       if (fs.existsSync(ftppassPath)) {
         ftppass = JSON.parse(fs.readFileSync(ftppassPath, 'utf-8'))
       }
@@ -209,7 +209,7 @@ function downloadReop (param, path) {
       fs.writeFileSync(ftppassPath, JSON.stringify(ftppass, null, 2))
 
       let readme = ''
-      let readmePath = `./README.md`
+      let readmePath = `${projectPath}README.md`
       if (fs.existsSync(readmePath)) {
         readme = fs.readFileSync(readmePath, 'utf-8')
       }
