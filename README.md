@@ -1,4 +1,4 @@
-# 🎩运营活动组项目构建工具
+ # 🎩运营活动组项目构建工具
 
 ![version](https://img.shields.io/github/package-json/v/NyPhile/ne-build.svg)
 ![commit](https://img.shields.io/github/last-commit/NyPhile/ne-build.svg)
@@ -26,6 +26,9 @@ $ npx ne-build h5
 
 $ npx ne-build post
 # 使用 NyPhile/post_template 作为模板创建项目，等同于 npx ne-build init -t NyPhile/post_template
+
+$ npx ne-build pc
+# 使用 hejingmiao/pc-jq-template 作为模板创建项目，等同于 npx ne-build init -t hejingmiao/pc-jq-template
 
 $ npx ne-build init
 # 创建项目，可同时输入参数，如 npx ne-build init -t NyPhile/h5_template
@@ -67,7 +70,7 @@ $ npx ne-build init
 2. 输入相应参数（`projectName`、`projectChannel`、`projectDesc`、`templatePath`、`username`、`password`）
 3. 使用 `download-git-repo` 在当前目录下载对应git仓库地址内容
 4. 替换 `package.json` 中的内容，`{projectName}` -> `name`，`{projectChannel}` -> `channel`，`{projectDesc}` -> `description`
-5. 替换 `.ftppass` 中的内容，`{username}` -> `username`，`{password}` -> `password`
+5. 替换 `.ftppass` 中的内容，`{username}` -> `username`，`{password}` -> `password`(不包括pc模版)
 6. 替换 `README.md` 中的内容，`# {projectName}` -> `# temp`
 
 
