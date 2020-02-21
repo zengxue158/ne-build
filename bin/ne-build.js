@@ -166,6 +166,30 @@ program
     })
   })
 
+program
+  .command('pc [projectName]')
+  .description('创建PC项目')
+  .option('-n, --projectName <input>', '项目名称')
+  .option('-c, --projectChannel <input>', '频道名称')
+  .option('-d, --projectDesc <input>', '项目描述')
+  .action((projectName, option) => {
+    let config = _.assign({
+      projectName: projectName ? projectName : null,
+      projectChannel: null,
+      projectDesc: null,
+      templatePath: 'hejingmiao/pc-jq-template'
+    }, option)
+
+    console.log('')
+    console.log(chalk.magenta('准备创建项目'))
+    console.log('')
+
+    inquire(config).then(answers => {
+      answers = _.assign(config, answers)
+
+      downloadPc(answers, projectName)
+    })
+  })
 program.parse(process.argv)
 
 function inquire (param) {
@@ -207,6 +231,58 @@ function downloadReop (param, path) {
       ftppass.username = param.username
       ftppass.password = param.password
       fs.writeFileSync(ftppassPath, JSON.stringify(ftppass, null, 2))
+
+      let readme = ''
+      let readmePath = `${projectPath}README.md`
+      if (fs.existsSync(readmePath)) {
+        readme = fs.readFileSync(readmePath, 'utf-8')
+      }
+      readme = readme.replace('# 项目标题', '# ' + param.projectName)
+      fs.writeFileSync(readmePath, readme)
+
+      console.log('')
+      console.log(chalk.magenta('完成'))
+      console.log('')
+      spinner.stop()
+    }
+  })
+}
+
+function downloadPc (param, path) {
+  const projectPath = path ? `./${path}/` : './'
+  const spinner = ora('正在下载模板').start()
+  download(param.templatePath, projectPath, err => {
+    if (err) {
+      console.log(err)
+    } else {
+      let channelFile = {}
+      let channelPath = `${projectPath}config/channel.json`
+      if (fs.existsSync(channelPath)) {
+        channelFile = JSON.parse(fs.readFileSync(channelPath, 'utf-8'))
+      }
+
+      let packageFile = {}
+      let packagePath = `${projectPath}package.json`
+      if (fs.existsSync(packagePath)) {
+        packageFile = JSON.parse(fs.readFileSync(packagePath, 'utf-8'))
+      }
+      packageFile.name = param.projectName
+      packageFile.channel = param.projectChannel
+      packageFile.channelId = channelFile[packageFile.channel].channelid
+      packageFile.description = param.projectDesc || ''
+      fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
+
+      const CMS_ID_REG = /<meta\s+name=["']cms_id["']\s+content=["'](\w+)["']\s*\/?>/i
+      let indexFile = ''
+      let indexPath = `${projectPath}src/index.html`
+      if (fs.existsSync(channelPath)) {
+        indexFile = fs.readFileSync(indexPath, 'utf-8')
+      }
+      const cmsMeta = CMS_ID_REG.exec(indexFile)[0]
+      const cmsId = CMS_ID_REG.exec(indexFile)[1]
+      const newCmsMeta = cmsMeta.replace(cmsId, packageFile.channelId)
+      indexFile = indexFile.replace(cmsMeta, newCmsMeta)
+      fs.writeFileSync(indexPath, indexFile)
 
       let readme = ''
       let readmePath = `${projectPath}README.md`
