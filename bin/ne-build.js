@@ -73,6 +73,33 @@ const requiredPrompts = [
   }
 ]
 
+const pcRequiredPrompts = [
+  {
+    key: 'projectName',
+    type: 'input',
+    name: 'projectName',
+    message: '请输入项目名称(小写字母、数字、_)',
+    validate: input => !input ? '不能为空' : true
+  },{
+    key: 'projectChannel',
+    type: 'input',
+    name: 'projectChannel',
+    message: '请输入项目频道名(如：news)',
+    validate: input => !input ? '不能为空' : true
+  },{
+    key: 'projectDesc',
+    type: 'input',
+    name: 'projectDesc',
+    message: '请输入项目描述(可为空)'
+  },{
+    key: 'templatePath',
+    type: 'input',
+    name: 'template',
+    message: '请输入模板地址(如：NyPhile/h5_template)',
+    validate: input => !input ? '不能为空' : true
+  }
+]
+
 program
   .version(pkg.version, '-v, --version', 'output the current version')
   .description('Description: \n  H5模板构建工具 for NETEASE')
@@ -184,7 +211,32 @@ program
     console.log(chalk.magenta('准备创建项目'))
     console.log('')
 
-    inquire(config).then(answers => {
+    pcInquire(config).then(answers => {
+      answers = _.assign(config, answers)
+
+      downloadPc(answers, projectName)
+    })
+  })
+
+program
+  .command('pc-vue [projectName]')
+  .description('创建PC-vue项目')
+  .option('-n, --projectName <input>', '项目名称')
+  .option('-c, --projectChannel <input>', '频道名称')
+  .option('-d, --projectDesc <input>', '项目描述')
+  .action((projectName, option) => {
+    let config = _.assign({
+      projectName: projectName ? projectName : null,
+      projectChannel: null,
+      projectDesc: null,
+      templatePath: 'hejingmiao/pc-vue-template'
+    }, option)
+
+    console.log('')
+    console.log(chalk.magenta('准备创建项目'))
+    console.log('')
+
+    pcInquire(config).then(answers => {
       answers = _.assign(config, answers)
 
       downloadPc(answers, projectName)
@@ -196,6 +248,20 @@ function inquire (param) {
   let prompts = []
 
   requiredPrompts.map(item => {
+    let key = item.key
+
+    if (!param[key]) {
+      prompts.push(item)
+    }
+  })
+
+  return inquirer.prompt(prompts)
+}
+
+function pcInquire (param) {
+  let prompts = []
+
+  pcRequiredPrompts.map(item => {
     let key = item.key
 
     if (!param[key]) {
@@ -248,7 +314,7 @@ function downloadReop (param, path) {
   })
 }
 
-function downloadPc (param, path) {
+function downloadPc (param, path, isVue) {
   const projectPath = path ? `./${path}/` : './'
   const spinner = ora('正在下载模板').start()
   download(param.templatePath, projectPath, err => {
@@ -272,16 +338,25 @@ function downloadPc (param, path) {
       packageFile.description = param.projectDesc || ''
       fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
 
-      const CMS_ID_REG = /<meta\s+name=["']cms_id["']\s+content=["'](\w+)["']\s*\/?>/i
       let indexFile = ''
-      let indexPath = `${projectPath}src/index.html`
+      let indexPath = `${projectPath}${isVue?'public':'src'}/index.html`
       if (fs.existsSync(channelPath)) {
         indexFile = fs.readFileSync(indexPath, 'utf-8')
       }
+      const CMS_ID_REG = /<meta\s+name=["']cms_id["']\s+content=["'](\w+)["']\s*\/?>/i
       const cmsMeta = CMS_ID_REG.exec(indexFile)[0]
       const cmsId = CMS_ID_REG.exec(indexFile)[1]
       const newCmsMeta = cmsMeta.replace(cmsId, packageFile.channelId)
       indexFile = indexFile.replace(cmsMeta, newCmsMeta)
+      // 替换章鱼统计的站点ID
+      if(isVue) {
+        const CHANNEL_NAME_REG = /_ntes_nacc\s*=\s*["'](\w+)["']/i
+        const channelNameLine = CHANNEL_NAME_REG.exec(indexFile)[0]
+        const channelName = CHANNEL_NAME_REG.exec(indexFile)[1]
+        const newchannelNameLIne = channelNameLine.replace(channelName, packageFile.channel)
+        indexFile = indexFile.replace(channelNameLine, newchannelNameLIne)
+      }
+
       fs.writeFileSync(indexPath, indexFile)
 
       let readme = ''
