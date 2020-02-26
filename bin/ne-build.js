@@ -220,7 +220,7 @@ program
 
 program
   .command('pc-vue [projectName]')
-  .description('创建PC-vue项目')
+  .description('创建PC-VUE项目')
   .option('-n, --projectName <input>', '项目名称')
   .option('-c, --projectChannel <input>', '频道名称')
   .option('-d, --projectDesc <input>', '项目描述')
