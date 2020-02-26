@@ -30,6 +30,9 @@ $ npx ne-build post
 $ npx ne-build pc
 # 使用 hejingmiao/pc-jq-template 作为模板创建项目，等同于 npx ne-build init -t hejingmiao/pc-jq-template
 
+$ npx ne-build pc-vue
+# 使用 hejingmiao/pc-vue-template 作为模板创建项目，等同于 npx ne-build init -t hejingmiao/pc-vue-template
+
 $ npx ne-build init
 # 创建项目，可同时输入参数，如 npx ne-build init -t NyPhile/h5_template
 ```
