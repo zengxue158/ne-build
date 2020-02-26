@@ -239,7 +239,7 @@ program
     pcInquire(config).then(answers => {
       answers = _.assign(config, answers)
 
-      downloadPc(answers, projectName)
+      downloadPc(answers, projectName, 1)
     })
   })
 program.parse(process.argv)
