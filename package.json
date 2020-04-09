@@ -1,6 +1,6 @@
 {
   "name": "ne-build",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "wz102223205@sina.com",
   "description": "🎩运营活动组项目构建工具",
   "license": "MIT",
@@ -19,9 +19,12 @@
   "homepage": "https://github.com/NyPhile/ne-build.git",
   "dependencies": {
     "chalk": "^2.4.2",
+    "child_process": "^1.0.2",
     "commander": "^2.20.0",
     "download-git-repo": "^2.0.0",
+    "fs": "0.0.1-security",
     "inquirer": "^6.5.0",
+    "lodash": "^4.17.15",
     "ora": "^3.4.0"
   },
   "channel": "ccc"
