@@ -204,7 +204,7 @@ program
       projectName: projectName ? projectName : null,
       projectChannel: null,
       projectDesc: null,
-      templatePath: 'hejingmiao/pc-jq-template'
+      templatePath: 'NyPhile/pc-jq-template'
     }, option)
 
     console.log('')
