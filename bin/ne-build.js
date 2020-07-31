@@ -94,7 +94,7 @@ const pcRequiredPrompts = [
   },{
     key: 'templatePath',
     type: 'input',
-    name: 'template',
+    name: 'templatePath',
     message: '请输入模板地址(如：NyPhile/h5_template)',
     validate: input => !input ? '不能为空' : true
   }
@@ -339,7 +339,7 @@ function downloadPc (param, path, isVue) {
       fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
 
       let indexFile = ''
-      let indexPath = `${projectPath}${isVue?'public':'src'}/index.html`
+      let indexPath = `${projectPath}${isVue?'public':'src/pages/index/'}/index.html`
       if (fs.existsSync(channelPath)) {
         indexFile = fs.readFileSync(indexPath, 'utf-8')
       }
