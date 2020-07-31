@@ -339,7 +339,7 @@ function downloadPc (param, path, isVue) {
       fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
 
       let indexFile = ''
-      let indexPath = `${projectPath}${isVue?'public':'src/pages/index/'}/index.html`
+      let indexPath = `${projectPath}${isVue?'public':'src'}/index.html`
       if (fs.existsSync(channelPath)) {
         indexFile = fs.readFileSync(indexPath, 'utf-8')
       }
