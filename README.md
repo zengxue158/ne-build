@@ -15,7 +15,10 @@
 # node版本大于5.2
 # 参数可在命令行输入，也可以输入命令后按交互提示输入
 
-# 0.0.3版本新增：可在命令后直接输入项目名，如
+# 使用杭研npm时，请加上scope，如
+$ npx @ne-web/ne-build h5 projectName
+
+# 可在命令后直接输入项目名，如
 $ npx ne-build h5 projectName
 # 使用 NyPhile/h5_template 作为模板，创建projectName文件夹，并在projectName文件夹内创建项目。
 # 不用重复输入项目名了。post、init命令同样增加该参数。

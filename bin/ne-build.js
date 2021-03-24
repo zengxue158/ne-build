@@ -242,6 +242,32 @@ program
       downloadPc(answers, projectName, 1)
     })
   })
+
+program
+  .command('pc-vue3 [projectName]')
+  .description('创建PC-VUE项目')
+  .option('-n, --projectName <input>', '项目名称')
+  .option('-c, --projectChannel <input>', '频道名称')
+  .option('-d, --projectDesc <input>', '项目描述')
+  .action((projectName, option) => {
+    let config = _.assign({
+      projectName: projectName ? projectName : null,
+      projectChannel: null,
+      projectDesc: null,
+      templatePath: 'gzz0204/pc-vue3-template'
+    }, option)
+
+    console.log('')
+    console.log(chalk.magenta('准备创建项目'))
+    console.log('')
+
+    pcInquire(config).then(answers => {
+      answers = _.assign(config, answers)
+
+      downloadPc(answers, projectName, 1)
+    })
+  })
+
 program.parse(process.argv)
 
 function inquire (param) {
