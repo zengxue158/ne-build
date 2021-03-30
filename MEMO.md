@@ -12,6 +12,6 @@ $ git push -u origin master
 $ git push -u github master
 
 # 修改版本号，发布至 npm：https://www.npmjs.com/package/ne-build ，之后可使用 npx 执行。
-# 然后到 http://npm.hz.netease.com/package/ne-build 同步，以保证npm.hz可用
+# 杭研npm使用ne-web scope发布: @ne-web/ne-build
 $ npm publish
 ```

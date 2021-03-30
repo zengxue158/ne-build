@@ -29,5 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### fixed
 - 修改pc模板地址
 
-## [0.1.1] - 2021-03-24
+## [0.0.11] - 2021-03-24
 ### 增加pc-vue3模板
+
+## [0.0.12] - 2021-03-30
+### 增加vue组件模板
