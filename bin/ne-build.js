@@ -100,6 +100,27 @@ const pcRequiredPrompts = [
   }
 ]
 
+const componentRequiredPrompts = [
+  {
+    key: 'projectName',
+    type: 'input',
+    name: 'projectName',
+    message: '请输入项目名称(小写字母、数字、_)',
+    validate: input => !input ? '不能为空' : true
+  },{
+    key: 'projectDesc',
+    type: 'input',
+    name: 'projectDesc',
+    message: '请输入项目描述(可为空)'
+  },{
+    key: 'templatePath',
+    type: 'input',
+    name: 'templatePath',
+    message: '请输入模板地址(如：NyPhile/h5_template)',
+    validate: input => !input ? '不能为空' : true
+  }
+]
+
 program
   .version(pkg.version, '-v, --version', 'output the current version')
   .description('Description: \n  H5模板构建工具 for NETEASE')
@@ -268,6 +289,29 @@ program
     })
   })
 
+program
+  .command('component-vue [projectName]')
+  .description('创建vue组件')
+  .option('-n, --projectName <input>', '项目名称')
+  .option('-d, --projectDesc <input>', '项目描述')
+  .action((projectName, option) => {
+    let config = _.assign({
+      projectName: projectName ? projectName : null,
+      projectDesc: null,
+      templatePath: 'gzz0204/npm-vue-template'
+    }, option)
+
+    console.log('')
+    console.log(chalk.magenta('准备创建项目'))
+    console.log('')
+
+    componentInquire(config).then(answers => {
+      answers = _.assign(config, answers)
+
+      downloadComponent(answers, projectName)
+    })
+  })
+
 program.parse(process.argv)
 
 function inquire (param) {
@@ -288,6 +332,20 @@ function pcInquire (param) {
   let prompts = []
 
   pcRequiredPrompts.map(item => {
+    let key = item.key
+
+    if (!param[key]) {
+      prompts.push(item)
+    }
+  })
+
+  return inquirer.prompt(prompts)
+}
+
+function componentInquire (param) {
+  let prompts = []
+
+  componentRequiredPrompts.map(item => {
     let key = item.key
 
     if (!param[key]) {
@@ -392,6 +450,31 @@ function downloadPc (param, path, isVue) {
       }
       readme = readme.replace('# 项目标题', '# ' + param.projectName)
       fs.writeFileSync(readmePath, readme)
+
+      console.log('')
+      console.log(chalk.magenta('完成'))
+      console.log('')
+      spinner.stop()
+    }
+  })
+}
+
+function downloadComponent (param, path) {
+  const projectPath = path ? `./${path}/` : './'
+  const spinner = ora('正在下载模板').start()
+  download(param.templatePath, projectPath, err => {
+    if (err) {
+      console.log(err)
+    } else {
+      let packageFile = {}
+      let packagePath = `${projectPath}package.json`
+      if (fs.existsSync(packagePath)) {
+        packageFile = JSON.parse(fs.readFileSync(packagePath, 'utf-8'))
+      }
+      packageFile.name = param.projectName
+      packageFile.description = param.projectDesc || ''
+      packageFile.version = '1.0.0'
+      fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
 
       console.log('')
       console.log(chalk.magenta('完成'))

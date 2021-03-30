@@ -19,24 +19,31 @@
 $ npx @ne-web/ne-build h5 projectName
 
 # 可在命令后直接输入项目名，如
-$ npx ne-build h5 projectName
+$ npx @ne-web/ne-build h5 projectName
 # 使用 NyPhile/h5_template 作为模板，创建projectName文件夹，并在projectName文件夹内创建项目。
 # 不用重复输入项目名了。post、init命令同样增加该参数。
 # 不填写projectName时与之前一样，在当前文件夹下创建项目
 
-$ npx ne-build h5
+$ npx @ne-web/ne-build h5 projectName
+# h5 zepto模板
 # 使用 NyPhile/h5_template 作为模板创建项目，等同于 npx ne-build init -t NyPhile/h5_template
 
-$ npx ne-build post
-# 使用 NyPhile/post_template 作为模板创建项目，等同于 npx ne-build init -t NyPhile/post_template
+$ npx @ne-web/ne-build post projectName
+# node渲染项目前端模板（以文章页为例）
 
-$ npx ne-build pc
-# 使用 hejingmiao/pc-jq-template 作为模板创建项目，不能用init方式
+$ npx @ne-web/ne-build pc projectName
+# cms pc项目jQuery模板
 
-$ npx ne-build pc-vue
-# 使用 hejingmiao/pc-vue-template 作为模板创建项目，不能用init方式
+$ npx @ne-web/ne-build pc-vue projectName
+# cms pc项目vue2框架模板
 
-$ npx ne-build init
+$ npx @ne-web/ne-build pc-vue3 projectName
+# cms pc项目vue3框架模板
+
+$ npx @ne-web/ne-build component-vue projectName
+# cms pc项目vue3框架模板
+
+$ npx @ne-web/ne-build init
 # 创建项目，可同时输入参数，如 npx ne-build init -t NyPhile/h5_template
 ```
 
