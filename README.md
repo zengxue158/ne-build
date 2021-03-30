@@ -41,7 +41,7 @@ $ npx @ne-web/ne-build pc-vue3 projectName
 # cms pc项目vue3框架模板
 
 $ npx @ne-web/ne-build component-vue projectName
-# cms pc项目vue3框架模板
+# 发布vue组件库npm包模板
 
 $ npx @ne-web/ne-build init
 # 创建项目，可同时输入参数，如 npx ne-build init -t NyPhile/h5_template
