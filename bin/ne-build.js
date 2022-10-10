@@ -239,6 +239,31 @@ program
     })
   })
 
+  program
+  .command('pc-jq2 [projectName]')
+  .description('创建PC-JQuery多页面项目')
+  .option('-n, --projectName <input>', '项目名称')
+  .option('-c, --projectChannel <input>', '频道名称')
+  .option('-d, --projectDesc <input>', '项目描述')
+  .action((projectName, option) => {
+    let config = _.assign({
+      projectName: projectName ? projectName : null,
+      projectChannel: null,
+      projectDesc: null,
+      templatePath: 'zengxue158/pc_jq_template2'
+    }, option)
+
+    console.log('')
+    console.log(chalk.magenta('准备创建项目'))
+    console.log('')
+
+    pcInquire(config).then(answers => {
+      answers = _.assign(config, answers)
+
+      downloadPc(answers, projectName)
+    })
+  })
+
 program
   .command('pc-vue [projectName]')
   .description('创建PC-VUE项目')

@@ -34,3 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.12] - 2021-03-30
 ### 增加vue组件模板
+
+## [0.0.13] - 2022-10-10
+### 增加pc-jq2多页面模板
