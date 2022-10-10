@@ -34,7 +34,7 @@ $ npx @ne-web/ne-build post projectName
 $ npx @ne-web/ne-build pc projectName
 # cms pc项目jQuery模板
 
-$ npx @ne-web/ne-build pc-jq2 projectName
+$ npx @ne-web/ne-build pc-jq-multi projectName
 # cms pc项目jQuery多页面模板
 
 $ npx @ne-web/ne-build pc-vue projectName

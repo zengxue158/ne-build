@@ -37,3 +37,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.13] - 2022-10-10
 ### 增加pc-jq2多页面模板
+
+## [0.0.14] - 2022-10-10
+### 修改pc-jq-multi多页面模板

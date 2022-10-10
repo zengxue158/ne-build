@@ -240,7 +240,7 @@ program
   })
 
   program
-  .command('pc-jq2 [projectName]')
+  .command('pc-jq-multi [projectName]')
   .description('创建PC-JQuery多页面项目')
   .option('-n, --projectName <input>', '项目名称')
   .option('-c, --projectChannel <input>', '频道名称')
@@ -260,7 +260,7 @@ program
     pcInquire(config).then(answers => {
       answers = _.assign(config, answers)
 
-      downloadPc(answers, projectName)
+      downloadPcMulti(answers, projectName)
     })
   })
 
@@ -507,4 +507,82 @@ function downloadComponent (param, path) {
       spinner.stop()
     }
   })
+}
+
+function downloadPcMulti (param, path) {
+  const projectPath = path ? `./${path}/` : './'
+  const spinner = ora('正在下载模板').start()
+  download(param.templatePath, projectPath, err => {
+    if (err) {
+      console.log(err)
+    } else {
+      let channelFile = {}
+      let channelPath = `${projectPath}config/channel.json`
+      if (fs.existsSync(channelPath)) {
+        channelFile = JSON.parse(fs.readFileSync(channelPath, 'utf-8'))
+      }
+      let packageFile = {}
+      let packagePath = `${projectPath}package.json`
+      if (fs.existsSync(packagePath)) {
+        packageFile = JSON.parse(fs.readFileSync(packagePath, 'utf-8'))
+      }
+      packageFile.name = param.projectName
+      packageFile.channel = param.projectChannel
+      packageFile.channelId = channelFile[packageFile.channel].channelid
+      packageFile.description = param.projectDesc || ''
+      fs.writeFileSync(packagePath, JSON.stringify(packageFile, null, 2))
+      // replace html meta start
+      const prePagesFilesPath = `${projectPath}src/pages`;
+      const pagesFilesPath = findFiles(prePagesFilesPath);
+      pagesFilesPath.forEach(function (indexPath) {
+        const pageFilePath = `${prePagesFilesPath}/${indexPath}/index.html`;
+        replaceCMSInfo(pageFilePath, channelPath, packageFile);
+      })
+      // replace html meta startxw
+      let readme = ''
+      let readmePath = `${projectPath}README.md`
+      if (fs.existsSync(readmePath)) {
+        readme = fs.readFileSync(readmePath, 'utf-8')
+      }
+      readme = readme.replace('# 项目标题', '# ' + param.projectName)
+      fs.writeFileSync(readmePath, readme)
+      console.log('')
+      console.log(chalk.magenta('完成'))
+      console.log('')
+      spinner.stop()
+    }
+  })
+}
+
+// 修整cmsMeta,csmID 
+function replaceCMSInfo(indexPath, channelPath, packageFile){
+  // 非空判断
+  if(!fs.existsSync(indexPath)){
+    return;
+  }
+  let indexFile = ''
+  if (fs.existsSync(channelPath)) {
+    indexFile = fs.readFileSync(indexPath, 'utf-8')
+  }
+  const CMS_ID_REG = /<meta\s+name=["']cms_id["']\s+content=["'](\w+)["']\s*\/?>/i
+  const cmsMeta = CMS_ID_REG.exec(indexFile)[0]
+  const cmsId = CMS_ID_REG.exec(indexFile)[1]
+  const newCmsMeta = cmsMeta.replace(cmsId, packageFile.channelId)
+  indexFile = indexFile.replace(cmsMeta, newCmsMeta)
+  fs.writeFileSync(indexPath, indexFile)
+}
+
+// 查询文件下文件
+function findFiles (rootPath) {
+  let result = []
+  function finder (tempPath) {
+    let files = fs.readdirSync(tempPath)
+    files.forEach((val) => {
+      if (val !== '.DS_Store') {
+        result.push(val)
+      }
+    })
+  }
+  finder(rootPath)
+  return result
 }
