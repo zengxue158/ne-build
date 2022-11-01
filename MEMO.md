@@ -14,4 +14,10 @@ $ git push -u github master
 # 修改版本号，发布至 npm：https://www.npmjs.com/package/ne-build ，之后可使用 npx 执行。
 # 杭研npm使用ne-web scope发布: @ne-web/ne-build
 $ npm publish
+
+# 拉取代码 
+# 拉取origin合并到master
+$ git pull origin master
+# 不合并
+$ git fetch origin master
 ```

@@ -250,7 +250,8 @@ program
       projectName: projectName ? projectName : null,
       projectChannel: null,
       projectDesc: null,
-      templatePath: 'zengxue158/pc_jq_template2'
+      templatePath: 'direct:https://g.hz.netease.com/f2e/component/pc-jq-template2.git',
+      downloadOption: { clone: true,headers: { 'PRIVATE-TOKEN': 'rWiKyfN5h87usVc-hZsG' } }
     }, option)
 
     console.log('')
@@ -508,13 +509,18 @@ function downloadComponent (param, path) {
     }
   })
 }
-
+var count = 0
 function downloadPcMulti (param, path) {
   const projectPath = path ? `./${path}/` : './'
   const spinner = ora('正在下载模板').start()
-  download(param.templatePath, projectPath, err => {
+  download(param.templatePath, projectPath, param.downloadOption, function (err) {
     if (err) {
-      console.log(err)
+      count++
+      if(count<10){
+        downloadPcMulti (param, path)
+      }else{
+        console.log(err)
+      }
     } else {
       let channelFile = {}
       let channelPath = `${projectPath}config/channel.json`
