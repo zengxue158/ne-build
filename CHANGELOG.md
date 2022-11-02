@@ -40,3 +40,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.14] - 2022-10-10
 ### 修改pc-jq-multi多页面模板
+
+## [0.0.15] - 2022-11-01
+### 修改pc-jq-multi多页面模板下载路径，由github 改为gitlab
